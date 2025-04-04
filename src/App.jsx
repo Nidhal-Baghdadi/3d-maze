@@ -1,23 +1,36 @@
 import "./style/App.css";
 import { Canvas } from "@react-three/fiber";
-import { Physics } from "@react-three/rapier"; // Components for handling physics.
-import { Suspense } from "react"; // Allows for using React components as fallback
+import { Physics } from "@react-three/rapier";
+import { Suspense } from "react";
 import Experience from "./components/Experience";
-import { Environment } from "@react-three/drei";
+import { Environment, Loader as Loader2 } from "@react-three/drei";
+
+import { Color } from "three";
+
+import Loader from "./components/Loader";
 
 function App() {
   return (
     <div className="App">
       <Canvas>
-        <Suspense fallback={null}>
-          {" "}
-          <Physics gravity={[0, -10, 0]}>
-            {" "}
+        <Suspense
+          fallback={
+            <Loader
+              scale={0.1}
+              position={[0, 0, 0]}
+              text={"A few more seconds!"}
+              color={new Color("darkgoldenrod")}
+            />
+          }
+        >
+          <Physics gravity={[0, -20, 0]}>
             <Experience className="experience" />
           </Physics>
-          <Environment files={"./assets/hdr/poly_haven_studio_4k.hdr"} />{" "}
         </Suspense>
+        <ambientLight color={"dodgerblue"} intensity={1} />
+        <Environment files={"./assets/hdr/metro_vijzelgracht_1k.hdr"} />
       </Canvas>
+      <Loader2 dataInterpolation={(p) => `Loading ${p.toFixed(2)}%`} />
     </div>
   );
 }

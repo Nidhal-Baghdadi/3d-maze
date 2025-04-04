@@ -4,9 +4,8 @@ import { Stage, Layer, Line, Circle } from "react-konva";
 const MazeEditor = () => {
   const [lines, setLines] = useState([]);
   const [dots, setDots] = useState([]);
-  // const [mazeData, setMazeData] = useState([]);
 
-  const gridSize = 15; // Adjust the size of the grid squares as needed
+  const gridSize = 15;
 
   const isStraightLine = (dot1, dot2) => {
     return dot1.x === dot2.x || dot1.y === dot2.y;

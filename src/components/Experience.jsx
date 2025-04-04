@@ -1,33 +1,90 @@
-import { useMouseCapture } from "../behaviour/useMouseCapture"; // Importing the hook for mouse input.
-import { useKeyboard } from "../behaviour/useKeyboard"; // Importing the hook for keyboard i
-import { Player } from "./Player"; // Importing the Player component to control the character.
-import { Walls } from "./Walls"; // Importing the Walls component for creating walls and grounds.
-import { Ball } from "./Ball"; // Importing the Ball component for creating phys
-// Function to get player input from keyboard and mouse
+import { useMouseCapture } from "../behaviour/useMouseCapture";
+import { useKeyboard } from "../behaviour/useKeyboard";
+import { Player } from "./Player";
+import { Walls } from "./Walls";
+import Loader from "./Loader";
+
+import Clock from "./Clock";
+import { useState, useEffect } from "react";
+
 function getInput(keyboard, mouse) {
   let [x, y, z] = [0, 0, 0];
-  // Checking keyboard inputs to determine movement direction
-  if (keyboard["s"]) z += 1.0; // Move backward
-  if (keyboard["z"]) z -= 1.0; // Move forward
-  if (keyboard["d"]) x += 1.0; // Move right
-  if (keyboard["q"]) x -= 1.0; // Move left
+  if (keyboard["s"]) z += 1.0;
+  if (keyboard["z"]) z -= 1.0;
+  if (keyboard["d"]) x += 1.0;
+  if (keyboard["q"]) x -= 1.0;
 
-  // Returning an object with the movement and look direction
   return {
     move: [x, y, z],
-    look: [mouse.x / window.innerWidth, mouse.y / window.innerHeight], // Mouse look direction
+    look: [mouse.x / window.innerWidth, mouse.y / window.innerHeight],
   };
 }
 
 function Experience() {
-  const keyboard = useKeyboard(); // Hook to get keyboard input
-  const mouse = useMouseCapture(); // Hook to get mouse input
+  const keyboard = useKeyboard();
+  const mouse = useMouseCapture();
+  const [isRunning, setIsRunning] = useState(false);
+
+  const [isReset, setIsReset] = useState(false);
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.key === "Enter") {
+        setIsReset(false);
+        setIsRunning(true);
+      }
+      if (event.key === "r") {
+        setIsReset(true);
+
+        setIsRunning(false);
+      }
+      if (event.key === "p") {
+        setIsReset(false);
+        setIsRunning(false);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
 
   return (
     <group>
-      <Walls /> {/* Rendering walls and grounds */}
-      <Player walk={20000} input={() => getInput(keyboard, mouse)} />{" "}
-      {/* Creating the player character */}
+      <Clock
+        color={"yellow"}
+        position={[0, 122, 80]}
+        scale={10}
+        isRunning={isRunning}
+        isReset={isReset}
+      />
+      {!isRunning && (
+        <Loader
+          text={"Enter | Start the game!"}
+          color={"yellow"}
+          position={[0, 150, 80]}
+          scale={10}
+        />
+      )}
+      <Player
+        walk={isRunning ? 35000 : 0}
+        input={() => getInput(keyboard, mouse)}
+        isReset={isReset}
+      />
+      <Loader
+        text={"P | Pause"}
+        color={"white"}
+        position={[520, 170, -400]}
+        scale={17}
+      />{" "}
+      <Loader
+        text={"R | Reset"}
+        color={"white"}
+        position={[-520, 170, -400]}
+        scale={17}
+      />
+      <Walls />
     </group>
   );
 }
