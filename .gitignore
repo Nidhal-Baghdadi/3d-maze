@@ -12,6 +12,7 @@ node_modules
 dist
 dist-ssr
 *.local
+package-lock.yaml
 
 # Editor directories and files
 .vscode/*
