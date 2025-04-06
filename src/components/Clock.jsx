@@ -2,9 +2,11 @@ import React, { useState, useEffect } from "react";
 
 import Banner from "./Banner";
 import font from "../assets/fonts/gt.json";
+import { useGame } from "../contexts/GameContext";
 
 export default function Clock(props) {
-  const { scale, position, color, isRunning, isReset } = props;
+  const { isRunning, isReset } = useGame();
+  const { scale, position, color } = props;
 
   const [elapsedTime, setElapsedTime] = useState("Time: 00:00");
   const [count, setCount] = useState(0);

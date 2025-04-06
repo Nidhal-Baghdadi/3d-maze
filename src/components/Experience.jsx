@@ -1,64 +1,16 @@
-import { useMouseCapture } from "../behaviour/useMouseCapture";
-import { useKeyboard } from "../behaviour/useKeyboard";
+import { KeyboardControls } from "@react-three/drei";
 import { Player } from "./Player";
 import { Walls } from "./Walls";
 import Loader from "./Loader";
-
 import Clock from "./Clock";
-import { useState, useEffect } from "react";
-
-function getInput(keyboard, mouse) {
-  let [x, y, z] = [0, 0, 0];
-  if (keyboard["s"]) z += 1.0;
-  if (keyboard["z"]) z -= 1.0;
-  if (keyboard["d"]) x += 1.0;
-  if (keyboard["q"]) x -= 1.0;
-
-  return {
-    move: [x, y, z],
-    look: [mouse.x / window.innerWidth, mouse.y / window.innerHeight],
-  };
-}
+import { useGame } from "../contexts/GameContext";
 
 function Experience() {
-  const keyboard = useKeyboard();
-  const mouse = useMouseCapture();
-  const [isRunning, setIsRunning] = useState(false);
-
-  const [isReset, setIsReset] = useState(false);
-  useEffect(() => {
-    const handleKeyDown = (event) => {
-      if (event.key === "Enter") {
-        setIsReset(false);
-        setIsRunning(true);
-      }
-      if (event.key === "r") {
-        setIsReset(true);
-
-        setIsRunning(false);
-      }
-      if (event.key === "p") {
-        setIsReset(false);
-        setIsRunning(false);
-      }
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }, []);
+  const { isRunning, isReset } = useGame();
 
   return (
     <group>
-      <Clock
-        color={"yellow"}
-        position={[0, 122, 80]}
-        scale={10}
-        isRunning={isRunning}
-        isReset={isReset}
-      />
+      <Clock color={"yellow"} position={[0, 122, 80]} scale={10} />
       {!isRunning && (
         <Loader
           text={"Enter | Start the game!"}
@@ -67,11 +19,20 @@ function Experience() {
           scale={10}
         />
       )}
-      <Player
-        walk={isRunning ? 35000 : 0}
-        input={() => getInput(keyboard, mouse)}
-        isReset={isReset}
-      />
+      <KeyboardControls
+        map={[
+          { name: "forward", keys: ["ArrowUp", "z", "Z"] },
+          { name: "backward", keys: ["ArrowDown", "s", "S"] },
+          { name: "left", keys: ["ArrowLeft", "q", "Q"] },
+          { name: "right", keys: ["ArrowRight", "d", "D"] },
+          { name: "reset", keys: ["r", "R"] },
+          { name: "pause", keys: ["p", "P"] },
+          { name: "enter", keys: ["Enter"] },
+          { name: "hover", keys: ["h", "H"] },
+        ]}
+      >
+        <Player />
+      </KeyboardControls>
       <Loader
         text={"P | Pause"}
         color={"white"}
@@ -83,6 +44,12 @@ function Experience() {
         color={"white"}
         position={[-520, 170, -400]}
         scale={17}
+      />
+      <Loader
+        text={"H | Hover"}
+        color={"white"}
+        position={[37.5, 35, 522]}
+        scale={2}
       />
       <Walls />
     </group>

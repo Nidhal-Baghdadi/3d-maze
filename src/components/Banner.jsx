@@ -4,7 +4,6 @@ import { useThree } from "@react-three/fiber";
 
 const Hero = ({ text, color, position, font }) => {
   const [matcapTexture] = useMatcapTexture("CB4E88_F99AD6_F384C3_ED75B9");
-  const ref = useRef();
 
   const { width: w, height: h } = useThree((state) => state.viewport);
 
@@ -15,7 +14,6 @@ const Hero = ({ text, color, position, font }) => {
           <Text3D
             position={position}
             scale={[-1, 1, 1]}
-            ref={ref}
             size={w / 9}
             maxWidth={[-w / 5, -h * 2, 3]}
             font={font}

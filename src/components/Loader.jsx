@@ -4,7 +4,6 @@ import Banner from "./Banner";
 import font from "../assets/fonts/gt.json";
 
 export default function Loader(props) {
-  const group = useRef();
   const { scale, position, text, color } = props;
 
   return (
