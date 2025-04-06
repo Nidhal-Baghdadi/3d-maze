@@ -355,10 +355,11 @@ const boxData = [
 ];
 export function Walls({ selectedMaze, customMazeData }) {
   const floorTextures = useTexture({
-    map: "../assets/textures/floor/diagonal_parquet_diff_4k.jpg",
-    displacementMap: "../assets/textures/floor/diagonal_parquet_disp_4k.png",
-    roughnessMap: "../assets/textures/floor/diagonal_parquet_rough_4k.jpg",
-    aoMap: "../assets/textures/floor/diagonal_parquet_ao_4k.jpg",
+    map: "../assets/textures/floor/diagonal_parquet_diff_1k.jpg",
+    displacementMap: "../assets/textures/floor/diagonal_parquet_disp_1k.jpg",
+    roughnessMap: "../assets/textures/floor/diagonal_parquet_rough_1k.jpg",
+    aoMap: "../assets/textures/floor/diagonal_parquet_ao_1k.jpg",
+    normalMap: "../assets/textures/floor/diagonal_parquet_nor_gl_1k.jpg",
   });
   const ceilingTextures = useTexture({
     map: "../assets/textures/ceiling/red_brick_diff_1k.jpg",
@@ -367,12 +368,12 @@ export function Walls({ selectedMaze, customMazeData }) {
     aoMap: "../assets/textures/ceiling/red_brick_ao_1k.jpg",
   });
   const wallTextures = useTexture({
-    map: "../assets/textures/wall/wood_cabinet_worn_long_diff_4k.jpg",
+    map: "../assets/textures/wall/wood_cabinet_worn_long_diff_1k.jpg",
     displacementMap:
-      "../assets/textures/wall/wood_cabinet_worn_long_disp_4k.png",
-    roughnessMap: "../assets/textures/wall/wood_cabinet_worn_long_rough_4k.jpg",
-    normalMap: "../assets/textures/wall/wood_cabinet_worn_long_nor_gl_4k.jpg",
-    aoMap: "../assets/textures/wall/wood_cabinet_worn_long_ao_4k.jpg",
+      "../assets/textures/wall/wood_cabinet_worn_long_disp_1k.jpg",
+    roughnessMap: "../assets/textures/wall/wood_cabinet_worn_long_rough_1k.jpg",
+    normalMap: "../assets/textures/wall/wood_cabinet_worn_long_nor_gl_1k.jpg",
+    aoMap: "../assets/textures/wall/wood_cabinet_worn_long_ao_1k.jpg",
   });
 
   let currentMazeData;

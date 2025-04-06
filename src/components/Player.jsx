@@ -43,10 +43,10 @@ export const Player = ({
     gaze.multiplyQuaternions(yaw, pitch).normalize();
   };
   const playerTextures = useTexture({
-    map: "../assets/textures/player/fabric_pattern_07_col_1_4k.png",
-    roughnessMap: "../assets/textures/player/fabric_pattern_07_rough_4k.jpg",
-    normalMap: "../assets/textures/player/fabric_pattern_07_nor_gl_4k.jpg",
-    aoMap: "../assets/textures/player/fabric_pattern_07_ao_4k.jpg",
+    map: "../assets/textures/player/plastered_wall_04_diff_1k.jpg",
+    roughnessMap: "../assets/textures/player/plastered_wall_04_rough_1k.jpg",
+    normalMap: "../assets/textures/player/plastered_wall_04_nor_gl_1k.jpg",
+    aoMap: "../assets/textures/player/plastered_wall_04_ao_1k.jpg",
   });
 
   useEffect(() => {
@@ -63,10 +63,6 @@ export const Player = ({
 
     const { move, look } = input();
     updateOrientation(look);
-
-    const walkable = scene.children.filter(
-      (o) => o.children[0]?.uuid !== mesh?.current?.uuid
-    );
 
     raycaster.set(position, down);
 
