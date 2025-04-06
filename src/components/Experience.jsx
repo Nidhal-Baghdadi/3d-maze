@@ -26,6 +26,8 @@ function Experience() {
   const [isRunning, setIsRunning] = useState(false);
 
   const [isReset, setIsReset] = useState(false);
+  const [isHover, setIsHover] = useState(false);
+
   useEffect(() => {
     const handleKeyDown = (event) => {
       if (event.key === "Enter") {
@@ -41,9 +43,19 @@ function Experience() {
         setIsReset(false);
         setIsRunning(false);
       }
+      if (event.key === "h") {
+        setIsHover(true);
+      }
+    };
+
+    const handleKeyUp = (event) => {
+      if (event.key === "h") {
+        setIsHover(false);
+      }
     };
 
     window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("keyup", handleKeyUp);
 
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
@@ -71,6 +83,7 @@ function Experience() {
         walk={isRunning ? 35000 : 0}
         input={() => getInput(keyboard, mouse)}
         isReset={isReset}
+        isHover={isHover}
       />
       <Loader
         text={"P | Pause"}
@@ -83,6 +96,12 @@ function Experience() {
         color={"white"}
         position={[-520, 170, -400]}
         scale={17}
+      />
+      <Loader
+        text={"H | Hover"}
+        color={"white"}
+        position={[37.5, 35, 520]}
+        scale={2}
       />
       <Walls />
     </group>

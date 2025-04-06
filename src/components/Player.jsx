@@ -12,6 +12,7 @@ export const Player = ({
   walk = 3,
   input = () => ({ move: [0, 0, 0], look: [0, 0] }),
   isReset,
+  isHover,
 }) => {
   const api = useRef(null);
   const mesh = useRef();
@@ -24,7 +25,8 @@ export const Player = ({
   const gaze = new Quaternion();
   const yaw = new Quaternion(0);
   const pitch = new Quaternion(0);
-  const cameraOffset = new Vector3(0, 135, 60);
+  const cameraOffset = new Vector3(0, 22, 2);
+  const cameraOffsetInGame = new Vector3(0, 135, 60);
   const down = new Vector3(0, -1, 0);
   const yAxis = new Vector3(0, 1, 0);
   const xAxis = new Vector3(1, 0, 0);
@@ -32,7 +34,7 @@ export const Player = ({
   const slope = new Vector3(0, 1, 0);
 
   const updateOrientation = ([x, y]) => {
-    const cameraSpeed = 0.5;
+    const cameraSpeed = 1.5;
     const step = 0.3;
     phi = lerp(phi, -x * cameraSpeed, step);
     theta = lerp(theta, -y * cameraSpeed, step);
@@ -70,7 +72,12 @@ export const Player = ({
 
     api.current.applyImpulse(offset, true);
     const newPosition = new THREE.Vector3(position.x, position.y, position.z);
-
+    if (isHover) {
+      camera.position.lerp(
+        newPosition.add(cameraOffsetInGame.clone().applyQuaternion(yaw)),
+        0.25
+      );
+    }
     camera.position.lerp(
       newPosition.add(cameraOffset.clone().applyQuaternion(yaw)),
       0.25
